@@ -1,0 +1,425 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.product-card {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 5px;
+}
+
+// ---------------------------------------------------------------------------
+// Media / image swap
+// ---------------------------------------------------------------------------
+.product-card__media {
+  position: relative;
+  border-radius: $radius-md;
+  overflow: hidden;
+  background: $color-ground-raised;
+  transition: box-shadow $dur-med $ease-out-quart;
+
+  .product-card:hover &,
+  .product-card:focus-within & {
+    box-shadow: $shadow-hover;
+  }
+}
+
+.product-card__image-stack {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  height: 494px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.product-card__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  // Real photography should never be cropped to fill the tile — contain +
+  // center it instead, letterboxed against the media background. Placeholder
+  // tiles are a flat color, so cropping them is invisible and `cover` (no
+  // gaps at the tile's edges) looks better there.
+  object-fit: contain;
+  transition:
+    opacity $dur-slow $ease-out-quart,
+    transform $dur-slow $ease-out-quart;
+
+  &.is-placeholder {
+    object-fit: cover;
+  }
+}
+
+.product-card__image--base {
+  .product-card:hover &,
+  .product-card:focus-within & {
+    transform: scale(1.04);
+  }
+
+  @include reduced-motion {
+    transform: none !important;
+  }
+}
+
+.product-card__image--hover {
+  opacity: 0;
+
+  &.is-visible {
+    opacity: 1;
+  }
+
+  // Placeholder mode has no real second-angle photo, so base and hover are
+  // the same tile — this filter is what reads as "something changed" on
+  // hover instead. Real photography (Product.images) supplies an actual
+  // distinct hoverImage, so this filter is scoped out once one exists.
+  &.is-placeholder {
+    filter: brightness(0.88) saturate(0.85);
+  }
+}
+
+.product-card__image-label {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  pointer-events: none;
+
+  span {
+    max-width: 100%;
+    padding: 6px 14px;
+    border-radius: $radius-sm;
+    background: rgba(0, 0, 0, 0.5);
+    font-family: $font-display;
+    font-size: clamp(19px, 2.4vw, 27px);
+    font-weight: 500;
+    line-height: 1.15;
+    color: #fff;
+    text-align: center;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Badges
+// ---------------------------------------------------------------------------
+.product-card__badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  display: flex;
+  gap: 6px;
+}
+
+.badge {
+  font-family: $font-body;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 4px 9px;
+  border-radius: $radius-sm;
+  transform: translateY(0);
+  transition:
+    transform $dur-fast $ease-out-quart,
+    box-shadow $dur-fast $ease-out-quart;
+
+  .product-card:hover &,
+  .product-card:focus-within & {
+    transform: translateY(-1px);
+  }
+
+  @include reduced-motion {
+    transform: none !important;
+  }
+}
+
+.badge--new {
+  background: $color-badge-new-bg;
+  color: $color-badge-new-fg;
+}
+
+.badge--sale {
+  background: $color-badge-sale-bg;
+  color: $color-badge-sale-fg;
+}
+
+// ---------------------------------------------------------------------------
+// Quick Shop — a labeled affordance that slides up on hover, and expands
+// into a size + add-to-bag panel when tapped.
+// ---------------------------------------------------------------------------
+.product-card__quickshop-toggle {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.94);
+  color: $color-ink;
+  border: 1px solid $color-line;
+  border-radius: $radius-sm;
+  padding: 11px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity $dur-med $ease-out-quart,
+    transform $dur-med $ease-out-quart,
+    background $dur-fast $ease-out-quart;
+  @include focus-ring;
+
+  .product-card:hover &,
+  .product-card:focus-within & {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &:hover {
+    background: $color-ground-raised;
+  }
+
+  &.is-open {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @include reduced-motion {
+    transition: opacity $dur-fast linear;
+    transform: none;
+  }
+}
+
+.product-card__quickshop-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  background: $color-ground-raised;
+  border-top: 1px solid $color-line;
+  padding: 16px;
+  transform: translateY(100%);
+  transition: transform $dur-med $ease-out-quart;
+
+  &.is-open {
+    transform: translateY(0);
+  }
+
+  @include reduced-motion {
+    transition: transform $dur-fast linear;
+  }
+}
+
+.product-card__quickshop-label {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: $color-ink-soft;
+}
+
+.product-card__sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.size-chip {
+  min-width: 36px;
+  padding: 6px 8px;
+  border: 1px solid $color-line;
+  border-radius: $radius-sm;
+  background: $color-ground-raised;
+  color: $color-ink;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    border-color $dur-fast $ease-out-quart,
+    background $dur-fast $ease-out-quart,
+    transform $dur-fast $ease-out-quart;
+  @include focus-ring;
+
+  &:hover {
+    border-color: $color-leather;
+  }
+
+  &.is-selected {
+    background: $color-ink;
+    border-color: $color-ink;
+    color: $color-ground-raised;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.product-card__add-btn {
+  width: 100%;
+  padding: 11px 16px;
+  border: none;
+  border-radius: $radius-sm;
+  background: $color-leather;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background $dur-fast $ease-out-quart,
+    opacity $dur-fast $ease-out-quart;
+  @include focus-ring;
+
+  &:hover:not(:disabled) {
+    background: $color-leather-dark;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &.is-added {
+    background: $color-focus;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Info block
+// ---------------------------------------------------------------------------
+.product-card__info {
+  padding-top: 14px;
+}
+
+.product-card__name {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 17px;
+  font-weight: 500;
+  color: $color-ink;
+}
+
+.product-card__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: $color-ink-soft;
+  transition: opacity $dur-fast $ease-out-quart;
+}
+
+.product-card__price {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+
+  .is-sale {
+    color: $color-badge-sale-fg;
+  }
+}
+
+.product-card__compare-price {
+  font-weight: 400;
+  color: $color-ink-soft;
+  text-decoration: line-through;
+  font-size: 13px;
+}
+
+// ---------------------------------------------------------------------------
+// Swatches
+// ---------------------------------------------------------------------------
+.product-card__swatches {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+// Wraps just the radio swatches (not the "+N" button) so the radiogroup's
+// children are only radios, per the ARIA radiogroup pattern.
+.product-card__swatches-group {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.swatch-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(58, 44, 34, 0.15);
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  transition:
+    transform $dur-fast $ease-out-quart,
+    box-shadow $dur-fast $ease-out-quart;
+  @include focus-ring;
+
+  // Invisible hit-area expansion — the visual dot stays 18px, but the
+  // tappable region meets the ~24px WCAG 2.5.5/2.5.8 touch-target guidance.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+  }
+
+  &:hover {
+    transform: scale(1.15);
+  }
+
+  &.is-active {
+    box-shadow:
+      0 0 0 2px $color-ground-raised,
+      0 0 0 3.5px $color-ink;
+  }
+
+  @include reduced-motion {
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.swatch-more {
+  font-size: 12px;
+  color: $color-ink-soft;
+  margin-left: 2px;
+  background: none;
+  border: none;
+  // Larger than the visible text strictly needs, closer to the ~24px
+  // WCAG 2.5.5/2.5.8 touch-target guidance.
+  padding: 6px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+  transition:
+    color $dur-fast $ease-out-quart,
+    text-decoration-color $dur-fast $ease-out-quart;
+  @include focus-ring;
+
+  &:hover {
+    color: $color-leather;
+    text-decoration-color: currentColor;
+  }
+}
+
+// The full color picker inside Quick Shop — same swatch language, larger
+// dots (better touch target) and wraps since there are more of them.
+.product-card__quickshop-swatches {
+  flex-wrap: wrap;
+  margin-top: 0;
+  margin-bottom: 16px;
+
+  .swatch-dot {
+    width: 24px;
+    height: 24px;
+  }
+}

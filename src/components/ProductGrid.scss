@@ -1,0 +1,139 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.product-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 56px 32px 80px;
+}
+
+.product-grid__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid $color-line;
+}
+
+.product-grid__title {
+  margin: 0;
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: clamp(28px, 3vw, 38px);
+  color: $color-ink;
+}
+
+.product-grid__shop-all {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: $color-ink;
+
+  &:hover {
+    color: $color-leather;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Carousel — native scroll-snap rail. Card widths are set under an even
+// fraction (e.g. 22.5% instead of 25% for 4-up) so the next card always
+// peeks at the edge, signaling there's more to scroll to.
+// ---------------------------------------------------------------------------
+.product-grid__viewport {
+  position: relative;
+}
+
+.product-grid__list {
+  list-style: none;
+  margin: 0;
+  padding: 0 4px;
+  display: flex;
+  gap: clamp(16px, 2vw, 16px);
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > li {
+    flex: 0 0 auto;
+    width: 22.5%;
+    scroll-snap-align: start;
+  }
+
+  @media (max-width: 1080px) {
+    gap: 20px;
+
+    > li {
+      width: 30%;
+    }
+  }
+
+  @media (max-width: 760px) {
+    gap: 14px;
+
+    > li {
+      width: 46%;
+    }
+  }
+
+  @media (max-width: 460px) {
+    > li {
+      width: 84%;
+    }
+  }
+}
+
+.product-grid__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid $color-line;
+  background: rgba(255, 255, 255, 0.94);
+  color: $color-ink;
+  cursor: pointer;
+  transition:
+    opacity $dur-fast $ease-out-quart,
+    background $dur-fast $ease-out-quart;
+  @include focus-ring;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover:not(:disabled) {
+    background: $color-ground-raised;
+  }
+
+  &:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (max-width: 760px) {
+    display: none;
+  }
+}
+
+.product-grid__arrow--prev {
+  left: -20px;
+}
+
+.product-grid__arrow--next {
+  right: -20px;
+}
