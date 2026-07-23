@@ -42,10 +42,6 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  // Real photography should never be cropped to fill the tile — contain +
-  // center it instead, letterboxed against the media background. Placeholder
-  // tiles are a flat color, so cropping them is invisible and `cover` (no
-  // gaps at the tile's edges) looks better there.
   object-fit: contain;
   transition:
     opacity $dur-slow $ease-out-quart,
@@ -152,8 +148,7 @@
 }
 
 // ---------------------------------------------------------------------------
-// Quick Shop — a labeled affordance that slides up on hover, and expands
-// into a size + add-to-bag panel when tapped.
+// Quick Shop
 // ---------------------------------------------------------------------------
 .product-card__quickshop-toggle {
   position: absolute;
@@ -345,8 +340,6 @@
   margin-top: 10px;
 }
 
-// Wraps just the radio swatches (not the "+N" button) so the radiogroup's
-// children are only radios, per the ARIA radiogroup pattern.
 .product-card__swatches-group {
   display: flex;
   align-items: center;
@@ -366,8 +359,6 @@
     box-shadow $dur-fast $ease-out-quart;
   @include focus-ring;
 
-  // Invisible hit-area expansion — the visual dot stays 18px, but the
-  // tappable region meets the ~24px WCAG 2.5.5/2.5.8 touch-target guidance.
   &::before {
     content: '';
     position: absolute;
@@ -397,8 +388,6 @@
   margin-left: 2px;
   background: none;
   border: none;
-  // Larger than the visible text strictly needs, closer to the ~24px
-  // WCAG 2.5.5/2.5.8 touch-target guidance.
   padding: 6px;
   cursor: pointer;
   text-decoration: underline;
@@ -415,8 +404,6 @@
   }
 }
 
-// The full color picker inside Quick Shop — same swatch language, larger
-// dots (better touch target) and wraps since there are more of them.
 .product-card__quickshop-swatches {
   flex-wrap: wrap;
   margin-top: 0;

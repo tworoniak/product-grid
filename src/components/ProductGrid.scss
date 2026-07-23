@@ -37,11 +37,6 @@
   }
 }
 
-// ---------------------------------------------------------------------------
-// Carousel — native scroll-snap rail. Card widths are set under an even
-// fraction (e.g. 22.5% instead of 25% for 4-up) so the next card always
-// peeks at the edge, signaling there's more to scroll to.
-// ---------------------------------------------------------------------------
 .product-grid__viewport {
   position: relative;
 }

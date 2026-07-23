@@ -6,18 +6,12 @@ import './ProductCard.scss';
 
 interface ProductCardProps {
   product: Product;
-  /** First-row cards should load eagerly instead of lazily. */
   priority?: boolean;
 }
 
 const formatPrice = (value: number) =>
   value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
-// Roving-tabindex keyboard behavior for a role="radiogroup" of role="radio"
-// buttons: Left/Up moves to the previous item, Right/Down to the next
-// (wrapping at the ends), Home/End jump to the first/last. Per the ARIA
-// Authoring Practices radio pattern, moving focus also changes the
-// selection — Tab only enters/exits the group once.
 function handleRadioKeyDown<T>(
   e: KeyboardEvent<HTMLButtonElement>,
   list: T[],
@@ -112,10 +106,6 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
     quickShopToggleRef.current?.focus();
   };
 
-  // Returns a render function scoped to `list` — each rendered group (the
-  // compact row's first 5, Quick Shop's full set) tracks its own roving
-  // tabindex, since they're two independently-navigable radiogroups that
-  // happen to share the same underlying selection.
   const renderSwatchGroup = (list: Swatch[]) => {
     const hasSelectionInList = list.some((s) => s.id === selectedSwatchId);
     return (s: Swatch, index: number) => {

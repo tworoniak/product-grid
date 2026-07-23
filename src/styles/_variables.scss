@@ -28,8 +28,7 @@ $radius-sm: 4px;
 $radius-md: 8px;
 $gutter: 24px;
 
-// Motion — a single consistent easing curve used everywhere so every
-// micro-interaction in the grid feels like it belongs to the same object.
+// Motion
 $ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 $dur-fast: 180ms;
 $dur-med: 320ms;
