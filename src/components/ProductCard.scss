@@ -31,6 +31,10 @@
   height: 494px;
   width: 100%;
   overflow: hidden;
+
+  @media (max-width: 460px) {
+    height: auto;
+  }
 }
 
 .product-card__image {
