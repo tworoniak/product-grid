@@ -22,8 +22,8 @@ const swatch = (id: string, label: string, hex: string): Swatch => ({
 // Shared across every product below — the first 5 render in each card's
 // compact swatch row, the full set renders in the Quick Shop color grid.
 const swatches: Swatch[] = [
-  swatch('honey', 'Honey Distressed', 'b98a55'),
   swatch('black', 'Black', '2b2622'),
+  swatch('honey', 'Honey Distressed', 'b98a55'),
   swatch('rose', 'Rose', 'c98f83'),
   swatch('espresso', 'Espresso', '5a4033'),
   swatch('bone', 'Bone', 'e7ded0'),
@@ -82,6 +82,9 @@ export const products: Product[] = [
     badges: [],
     sizes: ['6', '7', '8', '9', '10', '11'],
     swatches,
+    images: {
+      black: { image: professionalBlack, hoverImage: professionalBlackSide },
+    },
   },
   {
     id: 'p3',
@@ -95,6 +98,9 @@ export const products: Product[] = [
     ],
     sizes: ['6', '7', '8', '9', '10', '11'],
     swatches,
+    images: {
+      black: { image: professionalBlack, hoverImage: professionalBlackSide },
+    },
   },
   {
     id: 'p4',
@@ -108,6 +114,9 @@ export const products: Product[] = [
     ],
     sizes: ['6', '7', '8', '9', '10'],
     swatches,
+    images: {
+      black: { image: professionalBlack, hoverImage: professionalBlackSide },
+    },
   },
   {
     id: 'p5',
@@ -117,6 +126,9 @@ export const products: Product[] = [
     badges: [],
     sizes: ['6', '7', '8', '9', '10', '11'],
     swatches,
+    images: {
+      black: { image: professionalBlack, hoverImage: professionalBlackSide },
+    },
   },
   {
     id: 'p6',
@@ -126,6 +138,9 @@ export const products: Product[] = [
     badges: [],
     sizes: ['6', '7', '8', '9', '10', '11'],
     swatches,
+    images: {
+      black: { image: professionalBlack, hoverImage: professionalBlackSide },
+    },
   },
   {
     id: 'p7',
@@ -136,6 +151,9 @@ export const products: Product[] = [
     badges: [{ type: 'sale', label: 'Sale' }],
     sizes: ['6', '7', '8', '9', '10'],
     swatches,
+    images: {
+      black: { image: professionalBlack, hoverImage: professionalBlackSide },
+    },
   },
   {
     id: 'p8',
@@ -145,6 +163,9 @@ export const products: Product[] = [
     badges: [{ type: 'new', label: 'New' }],
     sizes: ['7', '8', '9', '10', '11'],
     swatches,
+    images: {
+      black: { image: professionalBlack, hoverImage: professionalBlackSide },
+    },
   },
   {
     id: 'p9',
@@ -154,6 +175,9 @@ export const products: Product[] = [
     badges: [],
     sizes: ['6', '7', '8', '9'],
     swatches,
+    images: {
+      black: { image: professionalBlack, hoverImage: professionalBlackSide },
+    },
   },
   {
     id: 'p10',
@@ -167,5 +191,8 @@ export const products: Product[] = [
     ],
     sizes: ['6', '7', '8', '9', '10', '11'],
     swatches,
+    images: {
+      black: { image: professionalBlack, hoverImage: professionalBlackSide },
+    },
   },
 ];
